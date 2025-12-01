@@ -1,0 +1,16 @@
+.langTableBasic tr:nth-child(odd) {
+  background: grey;
+}
+.langTableBasic tr:nth-child(even) {
+  background: rgb(207, 207, 207);
+}
+.langTableActive tr:nth-child(odd) {
+  background: rgb(207, 207, 207);
+}
+.langTableActive tr:nth-child(even) {
+  background: grey;
+}
+td,
+th {
+  border: 1px solid black;
+}

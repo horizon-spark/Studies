@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 4</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <div class="section">
+      <div class="header" data-target="main">Основное блюдо</div>
+      <div id="main" style="display: none; margin-left: 20px">
+        <div>
+          <label
+            ><input type="radio" name="main" value="250" /> Стейк (250
+            руб)</label
+          >
+        </div>
+        <div>
+          <label
+            ><input type="radio" name="main" value="200" /> Рыба (200
+            руб)</label
+          >
+        </div>
+        <div>
+          <label
+            ><input type="radio" name="main" value="180" /> Паста (180
+            руб)</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="header" data-target="side">Гарнир</div>
+      <div id="side" style="display: none; margin-left: 20px">
+        <div>
+          <label
+            ><input type="checkbox" name="side" value="80" /> Картофель (80
+            руб)</label
+          >
+        </div>
+        <div>
+          <label
+            ><input type="checkbox" name="side" value="70" /> Рис (70
+            руб)</label
+          >
+        </div>
+        <div>
+          <label
+            ><input type="checkbox" name="side" value="90" /> Овощи (90
+            руб)</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="header" data-target="sauce">Соус</div>
+      <div id="sauce" style="display: none; margin-left: 20px">
+        <div>
+          <label
+            ><input type="radio" name="sauce" value="50" /> Барбекю (50
+            руб)</label
+          >
+        </div>
+        <div>
+          <label
+            ><input type="radio" name="sauce" value="40" /> Сырный (40
+            руб)</label
+          >
+        </div>
+        <div style="margin-left: 20px">
+          <label
+            ><input type="checkbox" name="extra" value="20" /> Острый (+20
+            руб)</label
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="margin-top: 20px; padding: 10px; background: #4caf50; color: white"
+    >
+      Итого: <span id="total">0</span> руб
+    </div>
+
+    <script>
+      $(function () {
+        $(".header").click(function () {
+          const target = $(this).data("target");
+          $("#" + target).toggle();
+        });
+
+        $("input").change(calculateTotal);
+
+        function calculateTotal() {
+          let total = 0;
+
+          const main = $('input[name="main"]:checked');
+          if (main.length) total += parseInt(main.val());
+
+          $('input[name="side"]:checked').each(function () {
+            total += parseInt($(this).val());
+          });
+
+          const sauce = $('input[name="sauce"]:checked');
+          if (sauce.length) total += parseInt(sauce.val());
+
+          $('input[name="extra"]:checked').each(function () {
+            total += parseInt($(this).val());
+          });
+
+          $("#total").text(total);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 6</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+      body {
+        display: flex;
+      }
+      img {
+        height: 300px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+      }
+      .zoomed {
+        transform: scale(1.5);
+        cursor: zoom-out;
+      }
+      .tooltip {
+        position: fixed;
+        background: #000;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 3px;
+        display: none;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <img
+        src="../images/cat1.jpg"
+        class="zoom-img"
+        data-tooltip="Нажмите для увеличения"
+      />
+    </div>
+
+    <div>
+      <img
+        src="../images/cat2.jpg"
+        class="zoom-img"
+        data-tooltip="Нажмите для увеличения"
+      />
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+      $(function () {
+        $(".zoom-img").click(function () {
+          $(this).toggleClass("zoomed");
+        });
+
+        $(".zoom-img").hover(
+          function (e) {
+            const tooltip = $(this).data("tooltip");
+            $("#tooltip")
+              .text(tooltip)
+              .css({
+                left: e.pageX + 10,
+                top: e.pageY + 10,
+              })
+              .show();
+          },
+          function () {
+            $("#tooltip").hide();
+          }
+        );
+
+        $(document).mousemove(function (e) {
+          $("#tooltip").css({
+            left: e.pageX + 10,
+            top: e.pageY + 10,
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Задание 1</title>
+  </head>
+  <body>
+    <table class="langTableBasic" id="table">
+      <tr>
+        <th>Язык программирования</th>
+        <th>Год выпуска</th>
+        <th>Применение</th>
+      </tr>
+      <tr>
+        <td>Python</td>
+        <td>1991</td>
+        <td>Высокоуровневый язык</td>
+      </tr>
+      <tr>
+        <td>JavaScript</td>
+        <td>1995</td>
+        <td>Для веб-разработки</td>
+      </tr>
+      <tr>
+        <td>Java</td>
+        <td>1995</td>
+        <td>Кроссплатформенный</td>
+      </tr>
+      <tr>
+        <td>C++</td>
+        <td>1985</td>
+        <td>Системное программирование</td>
+      </tr>
+      <tr>
+        <td>Go</td>
+        <td>2009</td>
+        <td>Язык от Google</td>
+      </tr>
+    </table>
+    <script>
+      $("#table").on("mouseenter mouseleave", function (e) {
+        $(this).toggleClass("langTableBasic langTableActive");
+      });
+    </script>
+  </body>
+</html>
