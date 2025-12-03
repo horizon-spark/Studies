@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 5</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+      .category {
+        background: #eee;
+        padding: 10px;
+        margin: 5px;
+        cursor: pointer;
+      }
+      .item {
+        background: #f9f9f9;
+        margin-left: 20px;
+        padding: 8px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="category" data-target="cat1">Категория 1</div>
+    <div id="cat1">
+      <div class="item">Элемент 1</div>
+      <div class="item">Элемент 2</div>
+      <div class="item">Элемент 3</div>
+    </div>
+
+    <div class="category" data-target="cat2">Категория 2</div>
+    <div id="cat2">
+      <div class="item">Элемент A</div>
+      <div class="item">Элемент B</div>
+    </div>
+
+    <button onclick="$('.item').slideDown(300)">Показать все</button>
+    <button onclick="$('.item').slideUp(300)">Скрыть все</button>
+
+    <script>
+      $(function () {
+        $(".category").click(function () {
+          const target = $(this).data("target");
+          $("#" + target + " .item").slideToggle(300);
+        });
+
+        $(".item").click(function (e) {
+          e.stopPropagation();
+          $(this).toggleClass("selected");
+        });
+      });
+    </script>
+  </body>
+</html>

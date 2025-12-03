@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 3</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <img
+      id="img"
+      src="../images/dog.jpg"
+      style="width: 300px; cursor: pointer"
+    />
+    <div>Состояние: <span id="state">непрозрачное</span></div>
+    <button onclick="$('#img').toggle()">Показать/Скрыть</button>
+
+    <script>
+      let click = 0;
+      $("#img").click(function () {
+        click++;
+        $(this).css("opacity", click % 2 ? "0.5" : "1");
+        $("#state").text(click % 2 ? "полупрозрачное" : "непрозрачное");
+      });
+    </script>
+  </body>
+</html>

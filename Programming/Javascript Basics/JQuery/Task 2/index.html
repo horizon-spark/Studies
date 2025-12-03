@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 2</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body>
+    <h3>Выберите картинку:</h3>
+    <div>
+      <img
+        src="../images/cat1.jpg"
+        style="
+          width: 150px;
+          height: 100px;
+          object-fit: cover;
+          border: 2px solid #ccc;
+          margin: 5px;
+          cursor: pointer;
+        "
+        class="source-img"
+        alt="Кот 1"
+      />
+      <img
+        src="../images/cat2.jpg"
+        style="
+          width: 150px;
+          height: 100px;
+          object-fit: cover;
+          border: 2px solid #ccc;
+          margin: 5px;
+          cursor: pointer;
+        "
+        class="source-img"
+        alt="Кот 2"
+      />
+    </div>
+
+    <h3>Настройки:</h3>
+    <div>
+      Режим:
+      <label
+        ><input type="radio" name="mode" value="copy" checked />
+        Копировать</label
+      >
+      <label><input type="radio" name="mode" value="move" /> Переместить</label>
+    </div>
+    <div>
+      Позиция:
+      <label
+        ><input type="radio" name="pos" value="append" checked /> В конец</label
+      >
+      <label><input type="radio" name="pos" value="prepend" /> В начало</label>
+    </div>
+    <div>
+      Абзацы:
+      <label
+        ><input type="checkbox" name="target" value="p1" checked /> Абзац
+        1</label
+      >
+      <label><input type="checkbox" name="target" value="p2" /> Абзац 2</label>
+      <label><input type="checkbox" name="target" value="p3" /> Абзац 3</label>
+      <label><input type="checkbox" name="target" value="p4" /> Абзац 4</label>
+    </div>
+
+    <button id="add">Добавить картинку</button>
+    <button id="clear">Очистить добавленные</button>
+
+    <h3>Абзацы:</h3>
+    <div id="p1" style="border: 1px solid #999; padding: 10px; margin: 10px">
+      <strong>Абзац 1:</strong> Текст первого абзаца.
+    </div>
+    <div id="p2" style="border: 1px solid #999; padding: 10px; margin: 10px">
+      <strong>Абзац 2:</strong> Текст второго абзаца.
+    </div>
+    <div id="p3" style="border: 1px solid #999; padding: 10px; margin: 10px">
+      <strong>Абзац 3:</strong> Текст третьего абзаца.
+    </div>
+    <div id="p4" style="border: 1px solid #999; padding: 10px; margin: 10px">
+      <strong>Абзац 4:</strong> Текст четвертого абзаца.
+    </div>
+
+    <div
+      id="status"
+      style="margin-top: 20px; padding: 10px; background: #f0f0f0"
+    ></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
