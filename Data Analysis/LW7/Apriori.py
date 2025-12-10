@@ -63,39 +63,74 @@ class Apriori:
                                 self.rules.append((left_set, right_set, 
                                                  self._support(itemset), conf))
 
-# Чтение данных из файла
+# Чтение данных из файла с новым форматом
 def read_data(filename):
     data = []
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding='utf-8') as f:
+        # Пропускаем заголовок
+        header = f.readline().strip()
+        print(f"Заголовок файла: {header}")
+        
         for line in f:
             if line.strip():
                 parts = line.strip().split('\t')
                 if len(parts) >= 2:
-                    symptoms = [s.strip().lower() for s in parts[1].split(',')]
+                    symptoms = [s.strip().lower() for s in parts[0].split(',')]
                     data.append(symptoms)
     return data
 
 # Основная программа
 def main():
     # Чтение данных
+    print("=== Анализ симптомов алгоритмом Apriori ===")
     transactions = read_data('symptoms_data.txt')
     
+    print(f"Загружено {len(transactions)} записей")
+    print(f"Пример данных: {transactions[:3]}")
+    
     # Применение алгоритма
-    apriori = Apriori(min_support=0.01, min_confidence=0.35)
+    apriori = Apriori(min_support=0.2, min_confidence=0.6)
     apriori.fit(transactions)
     
     # Вывод результатов
-    print("Частые наборы симптомов:")
-    for k, itemsets in apriori.frequent_itemsets.items():
-        print(f"\nНаборы из {k} симптомов:")
-        for itemset in itemsets:
-            supp = apriori._support(itemset)
-            print(f"  {list(itemset)} - поддержка: {supp:.1%}")
+    print("\n" + "="*50)
+    print("ЧАСТЫЕ НАБОРЫ СИМПТОМОВ:")
+    print("="*50)
     
-    print("\n\nАссоциативные правила:")
-    for i, (left, right, supp, conf) in enumerate(apriori.rules, 1):
-        print(f"{i}. Если {list(left)} → {list(right)}")
-        print(f"   Поддержка: {supp:.1%}, Достоверность: {conf:.1%}")
+    for k, itemsets in apriori.frequent_itemsets.items():
+        if itemsets:
+            print(f"\nНаборы из {k} симптомов:")
+            for itemset in itemsets:
+                supp = apriori._support(itemset)
+                patient_count = int(supp * len(transactions))
+                print(f"  {list(itemset)}")
+                print(f"    Поддержка: {supp:.1%} ({patient_count} пациентов)")
+    
+    print("\n" + "="*50)
+    print("АССОЦИАТИВНЫЕ ПРАВИЛА:")
+    print("="*50)
+    
+    if apriori.rules:
+        for i, (left, right, supp, conf) in enumerate(apriori.rules, 1):
+            print(f"\nПравило {i}:")
+            print(f"  ЕСЛИ {list(left)}")
+            print(f"  ТО {list(right)}")
+            print(f"  Поддержка: {supp:.1%}")
+            print(f"  Достоверность: {conf:.1%}")
+    else:
+        print("\nНет значимых правил при заданных параметрах")
+    
+    # Статистика
+    print("\n" + "="*50)
+    print("СТАТИСТИКА:")
+    print("="*50)
+    
+    total_symptoms = sum(len(t) for t in transactions)
+    avg_symptoms = total_symptoms / len(transactions)
+    
+    print(f"Всего записей: {len(transactions)}")
+    print(f"Всего уникальных симптомов: {len(set(item for t in transactions for item in t))}")
+    print(f"Среднее количество симптомов на запись: {avg_symptoms:.1f}")
 
 if __name__ == "__main__":
     main()
