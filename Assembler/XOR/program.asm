@@ -29,6 +29,8 @@ main:
     mov al, [rsi + rdx]
     mov bl, [rsi + rdx + 1]
     xor al, bl
+	not al
+	and al, 0b01111111
     mov [rdi + rdx], al
     inc rdx
     cmp rdx, rcx
