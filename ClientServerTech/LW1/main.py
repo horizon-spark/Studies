@@ -71,17 +71,6 @@ def get_weather(api_key, city):
         print("\nПогода за прошлую неделю")
         print("="*50)
 
-        # for day in history_data['forecast']['forecastday']:
-        #     date = datetime.strptime(day['date'], '%Y-%m-%d').strftime('%d.%m.%Y')
-        #     print(f"\nДата: {date}")
-        #     print(f"Макс. температура: {day['day']['maxtemp_c']}°C")
-        #     print(f"Мин. температура: {day['day']['mintemp_c']}°C")
-        #     print(f"Средняя температура: {day['day']['avgtemp_c']}°C")
-        #     print(f"Погодные условия: {day['day']['condition']['text']}")
-        #     print(f"Вероятность дождя: {day['day']['daily_chance_of_rain']}%")
-        #     print(f"Количество осадков: {day['day']['totalprecip_mm']} мм")
-        #     print("-"*50)
-
         last_week_agv_temp = []
         last_week_dates = []
 
@@ -91,6 +80,11 @@ def get_weather(api_key, city):
             last_week_agv_temp.append(day['day']['avgtemp_c'])
 
         figure, axes = plt.subplots()
+
+        axes.set_xlabel("День")
+        axes.set_ylabel(f"Средняя температура, \u00b0С")
+
+        axes.set_title(f"Средняя температура в городе {current_data['location']['name']} на прошлой неделе")
 
         axes.plot(last_week_dates, last_week_agv_temp)
 
