@@ -1,0 +1,10 @@
+<test>
+    <id>7</id>
+    <subject_id>5</subject_id>
+    <conducted_by_user_id>3</conducted_by_user_id>
+    <test_date>2015-02-03</test_date>
+    <raw_data>
+        <conceptualIntuitiveIntellect>17</conceptualIntuitiveIntellect>
+        <conceptualLogicalIntellect>9</conceptualLogicalIntellect>
+    </raw_data>
+</test>
