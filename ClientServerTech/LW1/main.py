@@ -2,6 +2,7 @@ import requests
 import json
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
+import os.path
 
 def get_weather(api_key, city):
     """
@@ -100,13 +101,17 @@ def get_weather(api_key, city):
 
 def main():
     # Ваш API ключ от WeatherAPI.com
-    with open("API_KEY.txt", 'r') as f:
-        API_KEY = f.readline()
-    
-    print("Программа прогноза погоды с использованием WeatherAPI.com")
-    city = input("Введите название города: ")
-    
-    get_weather(API_KEY, city)
+    if os.path.exists('API_KEY.txt'):
+        with open("API_KEY.txt", 'r') as f:
+            API_KEY = f.readline()
+        
+        print("Программа прогноза погоды с использованием WeatherAPI.com")
+        city = input("Введите название города: ")
+        
+        get_weather(API_KEY, city)
+
+    else:
+        print('Для работы программы необходимо создать файл API_KEY.txt и поместить в него ключ')
 
 if __name__ == "__main__":
     main()
