@@ -37,7 +37,10 @@ def get_weather(api_key, city):
         
         # Проверяем наличие ошибок
         if 'error' in current_data:
-            print(f"Ошибка: {current_data['error']['message']}")
+            if current_data['error']['code'] == 1006:
+                print("Ошибка: город не найден или название введено неправильно!")
+            else:
+                print(f"Ошибка: {current_data['error']['message']}")
             return
         
         # Выводим текущую погоду
