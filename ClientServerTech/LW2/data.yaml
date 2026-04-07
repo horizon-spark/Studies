@@ -1,8 +1,18 @@
 test:
   id: 7
-  subject_id: 5
+  subject_id:
+    - 5
+    - 2
+    - 4
   conducted_by_user_id: 3
+  conducted_by_admin: true
   test_date: "2015-02-03"
   raw_data:
-    conceptualIntuitiveIntellect: 17
-    conceptualLogicalIntellect: 9
+    conceptualIntuitiveIntellect:
+      - 17
+      - 14
+      - 18
+    conceptualLogicalIntellect:
+      - 9
+      - 13
+      - 15

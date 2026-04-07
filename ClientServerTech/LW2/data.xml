@@ -1,10 +1,23 @@
 <test>
     <id>7</id>
-    <subject_id>5</subject_id>
+    <subject_ids>
+        <subject_id>5</subject_id>
+        <subject_id>2</subject_id>
+        <subject_id>4</subject_id>
+    </subject_ids>
     <conducted_by_user_id>3</conducted_by_user_id>
+    <conducted_by_admin>true</conducted_by_admin>
     <test_date>2015-02-03</test_date>
     <raw_data>
-        <conceptualIntuitiveIntellect>17</conceptualIntuitiveIntellect>
-        <conceptualLogicalIntellect>9</conceptualLogicalIntellect>
+        <conceptualIntuitiveIntellect>
+            <person1>17</person1>
+            <person2>14</person2>
+            <person3>18</person3>
+        </conceptualIntuitiveIntellect>
+        <conceptualLogicalIntellect>
+            <person1>9</person1>
+            <person2>13</person2>
+            <person3>15</person3>
+        </conceptualLogicalIntellect>
     </raw_data>
 </test>

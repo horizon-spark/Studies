@@ -72,9 +72,6 @@ def get_weather(api_key, city):
             print(f"Количество осадков: {day['day']['totalprecip_mm']} мм")
             print("-"*50)
 
-        print("\nПогода за прошлую неделю")
-        print("="*50)
-
         last_week_agv_temp = []
         last_week_dates = []
 
