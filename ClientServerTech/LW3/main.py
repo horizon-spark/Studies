@@ -1,144 +1,172 @@
 import requests
-import os.path
 
 
-def main():
-    #1
-    print('Task 1')
+def health_check():
+    response = requests.get("https://restful-booker.herokuapp.com/ping")
 
-    health_check_response = requests.get("https://restful-booker.herokuapp.com/ping")
-    print(health_check_response.status_code)
+    print('Проверка доступности, код ответа:', response.status_code)
 
 
-    #2
-    print('Task 2')
-
-    if os.path.exists('token.txt'):
-        with open('token.txt', mode='r', encoding='utf-8') as f:
-            token = f.readline()
-            print('Токен был прочитан из файла')
-    else:
-        header = {
+def get_token():
+    header = {
             'Content-Type': 'application/json'
         }
-        data = {
+    data = {
             'username': 'admin',
             'password': 'password123'
         }
 
-        token_response = requests.post('https://restful-booker.herokuapp.com/auth', headers=header, json=data)
-        token = token_response.json()['token']
+    response = requests.post('https://restful-booker.herokuapp.com/auth', headers=header, json=data)
+    token = response.json()['token']
 
-        print(token_response.status_code)
-
-        with open('token.txt', mode='w', encoding='utf-8') as f:
-            f.write(token)
-
+    print('Получение токена, код ответа:', response.status_code)
     print('Токен:', token)
 
-    #3
-    print('Task 3')
+    return token
 
-    if os.path.exists('first_id.txt'):
-        with open('first_id.txt', mode='r', encoding='utf-8') as f:
-            id = f.readline()
+
+def get_booking_list():
+    response = requests.get('https://restful-booker.herokuapp.com/booking')
+    id = response.json()[0]['bookingid']
+
+    print('Получение списка бронирований, код ответа:', response.status_code)
+
+    for booking in response.json():
+        print(booking['bookingid'], end=' ')
+    print()
+
+    return id
+
+
+def get_booking_info_by_id(id):
+    response = requests.get(f'https://restful-booker.herokuapp.com/booking/{id}')
+
+    print(f'Получение информации о бронировании с id={id}, код ответа:', response.status_code)
+
+    if response.status_code == 404:
+        print(f"Запись с id={id} не найдена")
     else:
-        booking_response = requests.get('https://restful-booker.herokuapp.com/booking')
-        id = booking_response.json()[0]['bookingid']
-
-        print(booking_response.status_code)
-
-        with open('first_id.txt', mode='w', encoding='utf-8') as f:
-            f.write(str(id))
-
-    print(id)
+        booking_info = response.json()
+        print(booking_info)
 
 
-    #4
-    print('Task 4')
+def create_booking():
+    header = {
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'firstname': 'Ryan',
+        'lastname': 'Gosling',
+        'totalprice': 120,
+        'depositpaid': True,
+        'bookingdates': {
+            'checkin': '2014-01-01',
+            'checkout': '2015-02-02'
+        },
+        'additionalneeds': 'anti-stab-gear'
+    }
 
-    booking_id_response = requests.get(f'https://restful-booker.herokuapp.com/booking/{id}')
-    booking_info = booking_id_response.json()
+    response = requests.post('https://restful-booker.herokuapp.com/booking', headers=header, json=data)
 
-    print(booking_info)
+    if response.status_code == 200:
+        id = response.json()['bookingid']
+    else:
+        id = -1
+        return
 
-
-    #5
-    # print('Task 5')
-    # booking_header = {
-    #     'Content-Type': 'application/json'
-    # }
-    # booking_data = {
-    #     'firstname': 'Ryan',
-    #     'lastname': 'Gosling',
-    #     'totalprice': 120,
-    #     'depositpaid': True,
-    #     'bookingdates': {
-    #         'checkin': '2014-01-01',
-    #         'checkout': '2015-02-02'
-    #     },
-    #     'additionalneeds': 'anti-stab-gear'
-    # }
-    # add_booking_response = requests.post('https://restful-booker.herokuapp.com/booking', headers=booking_header, json=booking_data)
-
-    # print(add_booking_response.status_code)
-
-    # if add_booking_response.status_code == 200:
-    #     with open('created_id', mode='w', encoding='utf-8') as f:
-    #         f.write(str(add_booking_response.json()['bookingid']))
-
+    print('Создание нового бронирования, код ответа:', response.status_code)
+    print('id созданного бронирования: ', id)
     
-    #6
-    # print('Task 6')
-    # put_header = {
-    #     'Content-Type': 'application/json',
-    #     'Accept': 'application/json',
-    #     'Cookie': f'token={token}'
-    # }
-    # put_data = {
-    #     'firstname': 'Bruce',
-    #     'lastname': 'Lee',
-    #     'totalprice': 150,
-    #     'depositpaid': False,
-    #     'bookingdates': {
-    #         'checkin': '2016-02-02',
-    #         'checkout': '2018-03-03'
-    #     },
-    #     'additionalneeds': 'kung-fu-stuff'
-    # }
+    get_booking_info_by_id(id)
 
-    # put_response = requests.put(f'https://restful-booker.herokuapp.com/booking/{id}', headers=put_header, json=put_data)
-
-    # print(put_response.status_code)
+    with open('created_id.txt', mode='w', encoding='utf-8') as f:
+        f.write(str(id))
 
 
-    #7
-    # print('Task 7')
-    # patch_header = {
-    #     'Content-Type': 'application/json',
-    #     'Accept': 'application/json',
-    #     'Cookie': f'token={token}'
-    # }
-    # patch_data = {
-    #     'firstname': 'Jackie',
-    #     'lastname': 'Chan'
-    # }
+def update_booking_by_id(token, id):
+    header = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': f'token={token}'
+    }
+    data = {
+        'firstname': 'Bruce',
+        'lastname': 'Lee',
+        'totalprice': 150,
+        'depositpaid': False,
+        'bookingdates': {
+            'checkin': '2016-02-02',
+            'checkout': '2018-03-03'
+        },
+        'additionalneeds': 'kung-fu-stuff'
+    }
 
-    # patch_response = requests.patch(f'https://restful-booker.herokuapp.com/booking/{id}', headers=patch_header, json=patch_data)
+    response = requests.put(f'https://restful-booker.herokuapp.com/booking/{id}', headers=header, json=data)
 
-    # print(patch_response.status_code)
+    print(f'Обновление бронирования с id={id}, код ответа:', response.status_code)
+    get_booking_info_by_id(id)
 
 
-    #8
-    print('Task 8')
-    delete_header = {
+def patch_booking_by_id(token, id):
+    header = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': f'token={token}'
+    }
+    data = {
+        'firstname': 'Jackie'
+    }
+
+    response = requests.patch(f'https://restful-booker.herokuapp.com/booking/{id}', headers=header, json=data)
+
+    print(f'Частичное обновление бронирования с id={id}, код ответа:', response.status_code)
+    get_booking_info_by_id(id)
+
+
+def delete_booking_by_id(token, id):
+    header = {
         'Content-Type': 'application/json',
         'Cookie': f'token={token}'
     }
 
-    delete_response = requests.delete(f'https://restful-booker.herokuapp.com/booking/{id}', headers=delete_header)
+    response = requests.delete(f'https://restful-booker.herokuapp.com/booking/{id}', headers=header)
 
-    print(delete_response.status_code)
+    print(f'Удаление бронирования с id={id}, код ответа:', response.status_code)
+
+
+def main():
+    print("Задание 1")
+    health_check()
+    print()
+
+    print("Задание 2")
+    token = get_token()
+    print()
+
+    print("Задание 3")
+    id = get_booking_list()
+    print()
+
+    print("Задание 4")
+    get_booking_info_by_id(id)
+    print()
+
+    print("Задание 5")
+    create_booking()
+    print()
+
+    print("Задание 6")
+    update_booking_by_id(token, id)
+    print()
+
+    print("Задание 7")
+    patch_booking_by_id(token, id)
+    print()
+
+    print("Задание 8")
+    delete_booking_by_id(token, id)
+    get_booking_info_by_id(id)
+
 
 if __name__ == '__main__':
     main()
